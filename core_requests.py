@@ -62,6 +62,17 @@ def download_movie(url, movie_name):  # downloads what is at the given url
     print(f'nom du fichier : {filename}')
 
 
+def get_dl_link_all(name):
+    page = get_movies_list_page(name)
+    souppage = soupify(page)
+    movies = extract_movie_posters(souppage)
+    movie_page = soupify(get_movie_page("?p=film&id=24679-django-unchained"))
+    lien_unfichier = movie_page.find(string="1fichier")
+    dlprotect_link = lien_unfichier.find_next(string="Télécharger").parent.get("href")
+    print(dlprotect_link)
+    return dlprotect_link
+
+
 def core_requests_main():
     name = "django"
     page = get_movies_list_page(name)
